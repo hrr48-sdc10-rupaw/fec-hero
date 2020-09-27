@@ -23,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     modelName: 'GameMedia',
     underscored: true,
     timestamps: true,
+    freezeTableName: true,
     tableName: 'game_media'
   });
   return GameMedia;

@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      GameReview.belongsTo(Game)
+      GameReview.belongsTo(models.Game);
     }
   };
   GameReview.init({

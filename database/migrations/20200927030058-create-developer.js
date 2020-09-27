@@ -10,7 +10,7 @@ module.exports = {
       },
       developerName: {
         type: Sequelize.STRING,
-        fiels: 'developer_name'
+        field: 'developer_name'
       },
       created_at: {
         allowNull: false,
