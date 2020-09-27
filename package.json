@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start-dev": "npx sequelize-cli db:create && npx sequelize-cli db:migrate && node server/index.js"
+    "start-dev": "npx sequelize-cli db:create && npx sequelize-cli db:migrate && node server/index.js",
+    "reset:db": "npx sequelize-cli db:seed:undo:all && npx sequelize-cli db:migrate:undo:all",
+    "setup:db": "npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all"
   },
   "repository": {
     "type": "git",
@@ -24,5 +26,8 @@
     "mysql2": "^2.2.5",
     "sequelize": "^6.3.5",
     "sequelize-cli": "^6.2.0"
+  },
+  "devDependencies": {
+    "faker": "^5.1.0"
   }
 }
