@@ -1,0 +1,27 @@
+{
+  "name": "hero-section",
+  "version": "1.0.0",
+  "description": "Hack Reactor Front End Capstone",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jamie-Lee-Birdis/hero-section.git"
+  },
+  "author": "Harsh Vikram Singh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jamie-Lee-Birdis/hero-section/issues"
+  },
+  "homepage": "https://github.com/Jamie-Lee-Birdis/hero-section#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mysql2": "^2.2.5",
+    "sequelize": "^6.3.5",
+    "sequelize-cli": "^6.2.0"
+  }
+}
