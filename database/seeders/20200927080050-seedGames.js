@@ -2,7 +2,7 @@
 const {Game, GameMedia, GameReview} = require('../models');
 const faker = require('faker');
 
-console.log(GameReview);
+console.log(Game.prototype);
 
 const getRating = () => {
   return Math.floor(Math.random() * 6);
@@ -43,23 +43,19 @@ module.exports = {
      * }], {});
     */
     for (let i = 0; i < 2; i++) {
-      await Game.create({
+      let gameInstance = await Game.create({
         gameName: getGameName(),
         getPublisherId: getPublisherId(),
         developerId: getDeveloperId(),
         description: getReview(),
-        releaseDate: 'Sep 1, 2020',
-        GameReview: {
-          rating: getRating(),
-          reviewText: getReview()
-        },
-        GameMedia: {
-          mediaType: getMediaType(),
-          mediaUrl: getMediaUrl()
-        }
-      }, {
-        include: [GameReview, GameMedia]
-      })
+        releaseDate: 'Sep 1, 2020',});
+
+      let review = await gameInstance.createGameReview({
+        rating: getRating(),
+        reviewText: getReview()
+      });
+
+      let
     }
   },
 
