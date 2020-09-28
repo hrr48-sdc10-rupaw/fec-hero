@@ -12,6 +12,8 @@ module.exports = {
      * }], {});
     */
     await queryInterface.bulkInsert('developers', [
+      { developer_name: 'Scarab Entertainment', created_at: new Date(), updated_at: new Date()},
+      { developer_name: 'id Software', created_at: new Date(), updated_at: new Date() },
       { developer_name: 'Activision', created_at: new Date(), updated_at: new Date()},
       { developer_name: '2K Sports', created_at: new Date(), updated_at: new Date() },
       { developer_name: 'EA Sports', created_at: new Date(), updated_at: new Date() },
@@ -28,7 +30,6 @@ module.exports = {
       { developer_name: 'Epic Games', created_at: new Date(), updated_at: new Date() },
       { developer_name: 'Gameloft', created_at: new Date(), updated_at: new Date() },
       { developer_name: 'Humongous Entertainment', created_at: new Date(), updated_at: new Date() },
-      { developer_name: 'id Software', created_at: new Date(), updated_at: new Date() },
       { developer_name: 'Konami', created_at: new Date(), updated_at: new Date() },
       { developer_name: 'Lucas Arts', created_at: new Date(), updated_at: new Date() },
       { developer_name: 'Nintendo', created_at: new Date(), updated_at: new Date() },

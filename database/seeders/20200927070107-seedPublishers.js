@@ -12,13 +12,14 @@ module.exports = {
      * }], {});
     */
     await queryInterface.bulkInsert('publishers', [
+      { publisher_name: 'Scarab Entertainment', created_at: new Date(), updated_at: new Date() },
+      { publisher_name: 'Bethesda Softworks', created_at: new Date(), updated_at: new Date() },
       { publisher_name: '2K Games', created_at: new Date(), updated_at: new Date() },
       { publisher_name: 'Activision Blizzard', created_at: new Date(), updated_at: new Date() },
       { publisher_name: 'Alpha Dream', created_at: new Date(), updated_at: new Date() },
       { publisher_name: 'American Video Entertainment', created_at: new Date(), updated_at: new Date() },
       { publisher_name: 'Atari, Inc', created_at: new Date(), updated_at: new Date() },
       { publisher_name: 'BBC Multimedia', created_at: new Date(), updated_at: new Date() },
-      { publisher_name: 'Bethesda Softworks', created_at: new Date(), updated_at: new Date() },
       { publisher_name: 'Black Bean Games', created_at: new Date(), updated_at: new Date() },
       { publisher_name: 'Capcom', created_at: new Date(), updated_at: new Date() },
       { publisher_name: 'Compile', created_at: new Date(), updated_at: new Date() },

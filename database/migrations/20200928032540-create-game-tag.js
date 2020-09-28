@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('game_reviews', {
+    await queryInterface.createTable('game_tags', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -12,13 +12,9 @@ module.exports = {
         type: Sequelize.INTEGER,
         field: 'game_id'
       },
-      ratingCount: {
-        type: Sequelize.STRING,
-        field: 'rating_count'
-      },
-      reviewText: {
-        type: Sequelize.STRING,
-        field: 'review_text'
+      tagId: {
+        type: Sequelize.INTEGER,
+        field: 'tag_id'
       },
       created_at: {
         allowNull: false,
@@ -31,6 +27,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('game_reviews');
+    await queryInterface.dropTable('game_tags');
   }
 };
