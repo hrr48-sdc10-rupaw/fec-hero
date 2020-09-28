@@ -8,50 +8,70 @@ const {
   Developer,
   Publisher,
   GameReview,
-  GameMedia
+  GameMedia,
+  GameTag
 } = require('../database/models');
 
 // console.log(Game.prototype);
 
 app = express();
 
-app.get('/health', (req, res) => {
+app.get('/api/hero/health', (req, res) => {
+  console.log('\nGET /health')
   res.send('OK');
 })
 
 
-Game.create({
-  gameName: 'DOOM Eternal',
-  description: 'Possibly the best FPS of ALL TIME!!',
-  releaseDate: '30 March, 2020'
-}).then(gameInstance => {
-  gameInstance.createDeveloper({
-    developerName: 'id Software'
-  });
-  return gameInstance;
-})
-  .then(gameInstance => {
-    gameInstance.createPublisher({
-      publisherName: 'Bethesda Softworx'
+app.get('/api/hero/all_info/:id', async (req, res) => {
+  console.log('GET /api/hero/all_info/:id');
+  const id = req.params.id;
+  console.log('sending all the info for id: ', id);
+  let gameInstance;
+  try {
+    gameInstance = await Game.findOne({
+      where: {
+        id: id
+      }
+    });
+  } catch (err) {
+    console.log('following error occured: ', err);
+    res.status(404);
+    res.send({serverResponse: 'Not Found'});
+    return;
+  }
+
+  // console.log(gameInstance[0].__proto__);
+  let publisher = gameInstance.getPublisher();
+  let developer = gameInstance.getDeveloper();
+  let tags = gameInstance.getTags();
+  let reviews = gameInstance.getGameReviews();
+  let media = gameInstance.getGameMedia();
+
+  [publisher, developer, tags, reviews, media] = await Promise.all([publisher, developer, tags, reviews, media]);
+  // console.log(results);
+
+  const responseInfo = {
+    gameName: gameInstance.gameName,
+    developerName: developer.developerName,
+    publisherName: publisher.publisherName,
+    gameTags: tags.map(obj => obj.tagName),
+    gameReviews: {
+      review: reviews.reviewText,
+      ratingCount: reviews.ratingCount
+    },
+    gameMedia: media.map(obj => {
+      return {
+        mediaType: obj.mediaType,
+        mediaUrl: obj.mediaUrl
+      }
     })
-    return gameInstance;
-  })
-  .then(gameInstance => {
-    gameInstance.createGameReview({
-      rating: 5,
-      reviewText: 'I can not believe how much fun I am having playing this thing!'
-    });
-    return gameInstance;
-  })
-  .then(gameInstance => {
-    gameInstance.createGameMedium({
-          mediaType: 0,
-          mediaUrl: 'http://s3.asia-pacific.com/bucketName'
-    });
-    return gameInstance;
-  })
-  .then(() => {
-    console.log('data entry created');
-    app.listen(port, () => console.log(`server running at ${port}`));
-  })
-  .catch(err => console.log('following error occured: ', err));
+  };
+  res.status(200);
+  res.send(JSON.stringify(responseInfo));
+})
+
+app.listen(port, () => {
+  console.log('\n||||||||||||||||||||||||||||||||||||||||||||||||||||')
+  console.log(`\nMoist-Air hero section service running at port: ${port}`);
+  console.log('\n||||||||||||||||||||||||||||||||||||||||||||||||||||\n')
+})

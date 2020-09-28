@@ -2,7 +2,7 @@
 
 const {Game, GameMedia, GameReview, GameTag} = require('../models')
 
-console.log(Game.prototype);
+// console.log(Game.prototype);
 // console.log(GameTag.prototype);
 
 module.exports = {

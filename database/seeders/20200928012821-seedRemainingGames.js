@@ -64,7 +64,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    for (let i = 2; i < 101; i++) {
+    for (let i = 3; i < 101; i++) {
 
       let gameInstance = await Game.create({
           gameName: faker.fake('{{hacker.noun}} - {{hacker.adjective}}'),
