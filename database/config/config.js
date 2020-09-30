@@ -10,11 +10,12 @@ module.exports = {
     "seederStorage": "sequelize"
   },
   "test": {
-    "username": "root",
-    "password": null,
-    "database": "database_test",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+    "username": process.env.DB_USERNAME || "root",
+    "password": process.env.DB_PASSWORD || "password",
+    "database": process.env.DB_NAME_DEV || "fec_hero",
+    "host": process.env.DB_HOST_DEV || "127.0.0.1",
+    "dialect": process.env.DB_DIALECT_DEV || "mysql",
+    "seederStorage": "sequelize"
   },
   "production": {
     "username": "root",

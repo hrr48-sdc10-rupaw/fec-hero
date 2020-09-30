@@ -21,7 +21,6 @@ app.get('/api/hero/health', (req, res) => {
   res.json({serverResponse: 'OK'});
 })
 
-
 app.get('/api/hero/all_info/:id', async (req, res) => {
   console.log('GET /api/hero/all_info/:id');
   const id = req.params.id;

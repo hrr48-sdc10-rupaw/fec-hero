@@ -7,7 +7,7 @@ const {defaults} = require('jest-config');
 const request = require('supertest');
 const app = require('../server/app.js');
 const Sequelize = require('sequelize');
-const db = require('../database/models/index.js');
+// const db = require('../database/models/index.js');
 require('dotenv').config()
 
 // beforeAll(async() => {
@@ -31,11 +31,11 @@ test('api responds with data', done => {
 })
 
 
-// test('api responds with data', done => {
-//   request(app.appMethods.app).get('/api/hero/all_info/2')
-//     .then(response => {
-//       console.log(response.body);
-//       expect(true).toBe(true);
-//       done();
-//     })
-// })
+test('api responds with data', done => {
+  request(app.appMethods.app).get('/api/hero/all_info/2')
+    .then(response => {
+      console.log(response.body);
+      expect(true).toBe(true);
+      done();
+    })
+})
