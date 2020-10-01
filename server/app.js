@@ -1,6 +1,8 @@
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
+const logger = require('morgan');
+const path = require('path');
 const port = process.env.PORT || 3000;
 const {
   Game,
@@ -13,16 +15,20 @@ const {
 } = require('../database/models');
 
 // console.log(Game.prototype);
-
 app = express();
+app.use(logger('dev'));
+app.use('/', express.static(path.join(__dirname, '../dist')))
 
 app.get('/api/hero/health', (req, res) => {
-  console.log('\nGET /health')
   res.json({serverResponse: 'OK'});
 })
 
+app.get('/', (req, res) => {
+  res.send({serverResponse: 'OK'});
+})
+
 app.get('/api/hero/all_info/:id', async (req, res) => {
-  console.log('GET /api/hero/all_info/:id');
+  // console.log('GET /api/hero/all_info/:id');
   const id = req.params.id;
   console.log('sending all the info for id: ', id);
   let gameInstance;
