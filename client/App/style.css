@@ -1,0 +1,62 @@
+.outlined {
+  border: 1px solid red;
+}
+
+#topHeading {
+  grid-area: heading;
+}
+
+#selected {
+  grid-area: selected;
+}
+
+#selector {
+  grid-area: selector
+}
+
+#infoSection {
+  grid-area: infoSection;
+  height: 100%;
+}
+
+#scroller {
+  grid-area: scroller;
+}
+
+@media screen and (min-width:900px) {
+  #hero {
+    width: 910px;
+    height: 600px;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    grid-template-rows: 100px 4fr 1fr 50px;
+    grid-row-gap: 5px;
+    grid-column-gap: 5px;
+    grid-template-areas:
+    'heading heading'
+    'selected infoSection'
+    'selector infoSection'
+    'scroller infoSection';
+  }
+}
+
+@media screen and (max-width:900px) {
+  #hero {
+    min-width: 470px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 60px 1fr 2fr 120px 50px;
+    grid-template-areas:
+    'heading'
+    'infoSection'
+    'selected'
+    'selector'
+    'scroller'
+  }
+
+  #infoSection {
+    display: grid;
+
+  }
+}
+
