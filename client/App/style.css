@@ -40,7 +40,7 @@
   }
 }
 
-@media screen and (max-width:900px) {
+@media screen and (max-width:900px) and (min-width:470px) {
   #hero {
     min-width: 470px;
     display: grid;
@@ -51,12 +51,45 @@
     'infoSection'
     'selected'
     'selector'
-    'scroller'
+    'scroller';
   }
 
   #infoSection {
     display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(6, 1fr);
+    grid-template-areas:
+    'headerImg description'
+    'headerImg reviews'
+    'headerImg date'
+    'headerImg dev'
+    'headerImg pub'
+    'tag tag';
+  }
 
+  #headerImg {
+    grid-area: headerImg;
+  }
+
+  #description {
+    grid-area: description;
   }
 }
 
+@media screen and (max-width:470px) {
+  #hero {
+    max-width: 460px;
+    width: 90vw;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 60px 1fr 1fr 1.2fr 80px 50px;
+    grid-template-areas:
+    'heading heading'
+    'infoSection infoSection'
+    'infoSection infoSection'
+    'selected selected'
+    'selector selector'
+    'scroller scroller'
+    ;
+  }
+}
