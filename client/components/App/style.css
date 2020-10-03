@@ -113,6 +113,9 @@
 
 #infoValues {
   margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
 }
 
 .lightText {
@@ -125,4 +128,21 @@
 
 .infoValue {
   color: #67c1f5
+}
+
+.infoReviewContainer {
+  margin-bottom: 10px;
+  line-height: 15px;
+}
+
+.infoDateContainer {
+  margin-bottom: 10px;
+}
+
+.infoDevPubContainer {
+  margin-bottom: 10px;
+}
+
+#tag {
+  line-height: 0px;
 }

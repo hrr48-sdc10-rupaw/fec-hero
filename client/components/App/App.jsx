@@ -5,7 +5,6 @@ import Selected from '../Selected/Selected.jsx';
 import Selector from '../Selector/Selector.jsx';
 import HeaderImg from '../HeaderImg/HeaderImg.jsx';
 import Description from '../Description/Description.jsx';
-import SmallInfo from '../SmallInfo/SmallInfo.jsx';
 import GameHeading from '../GameHeading/GameHeading.jsx';
 import Tag from '../Tag/Tag.jsx';
 
@@ -65,13 +64,28 @@ const App = (props) => {
     let infoKeys;
     if (gameInfo.gameName !== null) {
       if (gameInfo.gameReviews.recentReviews) {
-        infoKeys = 'RECENT REVIEWS:#ALL REVIEWS:#RELEASE DATE:#DEVELOPER:#PUBLISHER'.split('#');
+        infoKeys = [
+          <div key="0" className="infoReviewContainer">
+            <div className="infoKey">RECENT REVIEWS: </div>
+            <div className="infoKey">ALL REVIEWS: </div>
+          </div>,
+          <div key="1" className="infoKey infoDateContainer">RELEASE DATE: </div>,
+          <div key="2" className="infoKey infoDevPubContainer">
+            <div className="infoKey">DEVELOPER: </div>
+            <div className="infoKey">PUBLISHER: </div>
+          </div>
+        ]
       } else {
-        infoKeys = 'ALL REVIEWS:#RELEASE DATE:#DEVEOPER:#PUBLISHER'.split('#');
+        infoKeys = [
+          <div key="0" className="infoKey infoReviewContainer">ALL REVIEWS: </div>,
+          <div key="1" className="infoKey infoDateContainer">RELEASE DATE: </div>,
+          <div key="2" className="infoKey infoDevPubContainer">
+            <div className="infoKey">DEVELOPER: </div>
+            <div className="infoKey">PUBLISHER: </div>
+          </div>
+        ]
       }
-      return infoKeys.map((val, idx) => {
-        return <SmallInfo key={idx} infoType='infoKey' infoValue={val} />
-      })
+      return infoKeys
     } else {
       return <></>
     }
@@ -82,29 +96,39 @@ const App = (props) => {
     if (gameInfo.gameName !== null) {
       if (gameInfo.gameReviews.recentReviews) {
         let rev = gameInfo.gameReviews;
+        console.log(rev)
         infoValues = [
-          // <div>
-          //   <span className="infoValue">{rev.recentReviews}</span>
-          //   <span className="lightText">{rev.recentReviewCount}</span>
-          // </div>
-          `${rev.recentReviews} (${rev.recentReviewCount})`,
-          `${rev.allReviews} (${rev.allReviewsCount})`,
-          gameInfo.releaseDate,
-          gameInfo.developerName,
-          gameInfo.publisherName
+          <div key="0" className="infoReviewContainer">
+            <div className="infoReview">
+              <span className="infoValue">{rev.recentReviews}</span>
+              <span className="lightText">{` (${rev.recentReviewCount})`}</span>
+            </div>
+            <div className="infoReview">
+              <span className="infoValue">{rev.allReviews}</span>
+              <span className="lightText">{` (${rev.allReviewsCount})`}</span>
+            </div>
+          </div>,
+          <div key="1" className="infoDate infoDateContainer">{gameInfo.releaseDate}</div>,
+          <div key="2" className="infoDevPubContainer">
+            <div className="infoValue">{gameInfo.developerName}</div>
+            <div className="infoValue">{gameInfo.publisherName}</div>
+          </div>
         ];
       } else {
         let rev = gameInfo.gameReviews;
         infoValues = [
-          `${rev.allReviews} (${rev.allReviewCount})`,
-          gameInfo.releaseDate,
-          gameInfo.developerName,
-          gameInfo.publisherName
+          <div key="0">
+            <span className="infoValue">{rev.allReview}</span>
+            <span className="lightText">{rev.allReviewCount}</span>
+          </div>,
+          <div key="1" className="infoDate">{gameInfo.releaseDate}</div>,
+          <div key="2" className="infoDevPubContainer">
+            <div className="infoValue">{gameInfo.developerName}</div>
+            <div className="infoValue">{gameInfo.publisherName}</div>
+          </div>
         ];
       }
-      return infoValues.map((val, idx) => {
-        return <SmallInfo key={idx} infoType='infoValue' infoValue={val} />
-      })
+      return infoValues;
     } else {
       return <></>
     }
@@ -137,7 +161,7 @@ const App = (props) => {
           <div className="outlined" id="infoValues">{getInfoValues()}</div>
         </div>
         <div className="outlined" id="tag">
-          <p className="lightText">Popular user-defined tags for this product</p>
+          <p className="lightText">Popular user-defined tags for this product:</p>
           <div className="tagContainer">
             {getTopTags()}
           </div>
