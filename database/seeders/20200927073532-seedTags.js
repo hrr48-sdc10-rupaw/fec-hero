@@ -13,9 +13,9 @@ module.exports = {
     */
     await queryInterface.bulkInsert('tags', [
       { tag_name: 'Action', created_at: new Date(), updated_at: new Date() },
-      { tag_name: 'Action RPG', created_at: new Date(), updated_at: new Date() },
-      { tag_name: 'Adventure', created_at: new Date(), updated_at: new Date() },
-      { tag_name: 'Agriculture', created_at: new Date(), updated_at: new Date() },
+      { tag_name: 'FPS', created_at: new Date(), updated_at: new Date() },
+      { tag_name: 'Great Soundtrack', created_at: new Date(), updated_at: new Date() },
+      { tag_name: 'Gore', created_at: new Date(), updated_at: new Date() },
       { tag_name: 'Aliens', created_at: new Date(), updated_at: new Date() },
       { tag_name: 'Chess', created_at: new Date(), updated_at: new Date() },
       { tag_name: 'City Builder', created_at: new Date(), updated_at: new Date() },

@@ -7,6 +7,7 @@ import HeaderImg from '../HeaderImg/HeaderImg.jsx';
 import Description from '../Description/Description.jsx';
 import SmallInfo from '../SmallInfo/SmallInfo.jsx';
 import GameHeading from '../GameHeading/GameHeading.jsx';
+import Tag from '../Tag/Tag.jsx';
 
 const App = (props) => {
 
@@ -64,9 +65,9 @@ const App = (props) => {
     let infoKeys;
     if (gameInfo.gameName !== null) {
       if (gameInfo.gameReviews.recentReviews) {
-        infoKeys = 'RECENT REVIEWS:ALL REVIEWS:RELEASE DATE:DEVELOPER:PUBLISHER'.split(':');
+        infoKeys = 'RECENT REVIEWS:#ALL REVIEWS:#RELEASE DATE:#DEVELOPER:#PUBLISHER'.split('#');
       } else {
-        infoKeys = 'ALL REVIEWS:RELEASE DATE:DEVEOPER:PUBLISHER'.split(':');
+        infoKeys = 'ALL REVIEWS:#RELEASE DATE:#DEVEOPER:#PUBLISHER'.split(':');
       }
       return infoKeys.map((val, idx) => {
         return <SmallInfo key={idx} infoType='infoKey' infoValue={val} />
@@ -105,34 +106,20 @@ const App = (props) => {
     }
   }
 
-  // return (
-  //   <div id="heroAppContainer">
-  //     <section className="outlined" id="hero" >
-  //       <div className="outlined" id="topHeading"><GameHeading gameName={gameInfo.gameName === null ? '' : gameInfo.gameName} /></div>
-  //       <div className="outlined" id="selected"><Selected imgUrl={selectedImgUrl} /></div>
-  //       <div className="outlined" id="selector"><Selector imgClickHandler={imageClickHandler} imgList={gameInfo.gameMedia} /></div>
-  //       <div className="outlined" id="scroller">Scroller</div>
-  //       <div id="infoSection">
-  //         <div className="outlined" id="headerImg"><HeaderImg imgUrl={getHeaderImgUrl()}/></div>
-  //         <div className="outlined" id="description"><Description description={getGameDescription()} /></div>
-  //         <div className="outlined" id="additionalInfo">
-  //           <div className="outlined" id="infoKeys">{getInfoKeys()}</div>
-  //           <div className="outlined" id="infoValues">{getInfoValues()}</div>
-  //         </div>
-  //         <div className="outlined" id="tag">Game Tags</div>
-  //       </div>
-  //     </section>
-  //     <section id="lightBackgroundImg" style={
-  //     {
-  //       backgroundImage: `url(${backgroundImgUrl})`,
-  //       // backgroundSize: 'cover',
-  //       // width: '100vw',
-  //       // overflow: 'visible'
-  //     }
-  //   }></section>
-  //   </div>
-  // )
-    return (
+  const getTopTags = () => {
+    let tags;
+    let tagList;
+    if (gameInfo.gameName !== null) {
+      tags = gameInfo.gameTags.slice(0, 5);
+      tagList = tags.map((val, idx) => <Tag tag={val} key={idx} />);
+      tagList.push(<Tag tag='+' key='6' />);
+      return tagList;
+    } else {
+      return <></>
+    }
+  }
+
+  return (
     <section className="outlined" id="hero">
       <div className="outlined" id="topHeading"><GameHeading gameName={gameInfo.gameName === null ? '' : gameInfo.gameName} /></div>
       <div className="outlined" id="selected"><Selected imgUrl={selectedImgUrl} /></div>
@@ -145,7 +132,7 @@ const App = (props) => {
           <div className="outlined" id="infoKeys">{getInfoKeys()}</div>
           <div className="outlined" id="infoValues">{getInfoValues()}</div>
         </div>
-        <div className="outlined" id="tag">Game Tags</div>
+        <div className="outlined tagContainer" id="tag">{getTopTags()}</div>
       </div>
     </section>
   )

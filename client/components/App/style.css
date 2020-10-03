@@ -33,14 +33,8 @@
   flex-direction: column;
 }
 
-#lightBackgroundImg {
-  min-width: 60vw;
-  min-height: 80vh;
-  background-size: cover;
-  position: absolute;
-  background-position: center top;
-  right: 450px;
-  z-index: -1;
+.tagContainer {
+  display: flex;
 }
 
 #body {
@@ -52,10 +46,10 @@
 
 @media screen and (min-width:900px) {
   #hero {
-    width: 900px;
+    width: 910px;
     height: 600px;
     display: grid;
-    grid-template-columns: 3fr 1.5fr;
+    grid-template-columns: 3fr 1.7fr;
     grid-template-rows: 100px 4fr 1fr 50px;
     grid-row-gap: 5px;
     grid-column-gap: 5px;
@@ -119,4 +113,8 @@
     'scroller scroller'
     ;
   }
+}
+
+#infoValues {
+  margin-left: 10px;
 }
