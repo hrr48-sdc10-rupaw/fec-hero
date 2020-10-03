@@ -1,8 +1,7 @@
 .selectorSingleImg {
-  width: 120px;
-  height: 100px;
+  margin: 5px;
 }
-
+/*
 .selectorSingleImg > img {
   width: 100%
-}
+} */

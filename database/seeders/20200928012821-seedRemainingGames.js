@@ -34,6 +34,11 @@ const getMediaArray = (gameId) => {
       mediaUrl: faker.image.unsplash.image()
     })
   }
+  mediaArray.push({
+    gameId: gameId,
+    mediaType: 2,
+    mediaUrl: 'https://hack-reactor-projects.s3-us-west-1.amazonaws.com/fec/1/images/bg.jpg'
+  })
   return mediaArray;
 }
 const getReview = (gameId) => {

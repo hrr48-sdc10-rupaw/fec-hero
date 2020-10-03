@@ -17,7 +17,7 @@ module.exports = {
      * }], {});
     */
     let gameInstance = await Game.create({
-        gameName: 'Doom ETERNAL',
+        gameName: 'DOOM Eternal',
         publisherId: 2,
         developerId: 2,
         description: 'Hell’s armies have invaded Earth. Become the Slayer in an epic single-player campaign to conquer demons across dimensions and stop the final destruction of humanity. The only thing they fear... is you.',
@@ -87,6 +87,11 @@ module.exports = {
           gameId: 2,
           mediaType: 1,
           mediaUrl: 'https://steamcdn-a.akamaihd.net/steam/apps/256778598/movie480_vp9.webm?t=1586386363'
+        },
+        {
+          gameId: 2,
+          mediaType: 2,
+          mediaUrl: 'https://hack-reactor-projects.s3-us-west-1.amazonaws.com/fec/1/images/bg.jpg'
         }
       ])
 

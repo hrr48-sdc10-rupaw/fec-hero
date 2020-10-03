@@ -1,5 +1,5 @@
 .outlined {
-  border: 1px solid red;
+  /* border: 1px solid red; */
 }
 
 #topHeading {
@@ -17,18 +17,45 @@
 #infoSection {
   grid-area: infoSection;
   height: 100%;
+  padding-left: 10px;
 }
 
 #scroller {
   grid-area: scroller;
 }
 
+#additionalInfo {
+  display: flex;
+}
+
+#heroAppContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+#lightBackgroundImg {
+  min-width: 60vw;
+  min-height: 80vh;
+  background-size: cover;
+  position: absolute;
+  background-position: center top;
+  right: 450px;
+  z-index: -1;
+}
+
+#body {
+  /* background-size: cover; */
+  background-repeat: no-repeat;
+  background-position: center top;
+  /* min-width: 90vw; */
+}
+
 @media screen and (min-width:900px) {
   #hero {
-    width: 910px;
+    width: 900px;
     height: 600px;
     display: grid;
-    grid-template-columns: 3fr 1fr;
+    grid-template-columns: 3fr 1.5fr;
     grid-template-rows: 100px 4fr 1fr 50px;
     grid-row-gap: 5px;
     grid-column-gap: 5px;
@@ -60,10 +87,10 @@
     grid-template-rows: repeat(6, 1fr);
     grid-template-areas:
     'headerImg description'
-    'headerImg reviews'
-    'headerImg date'
-    'headerImg dev'
-    'headerImg pub'
+    'headerImg additionalInfo'
+    'headerImg additionalInfo'
+    'headerImg additionalInfo'
+    'headerImg additionalInfo'
     'tag tag';
   }
 

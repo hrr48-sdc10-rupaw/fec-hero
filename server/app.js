@@ -54,15 +54,32 @@ app.get('/api/hero/all_info/:id', async (req, res) => {
 
   [publisher, developer, tags, reviews, media] = await Promise.all([publisher, developer, tags, reviews, media]);
 
+  const formatReviews = () => {
+    if (reviews[0].reviewText.includes(':')) {
+      let reviewText = reviews[0].reviewText.split(':');
+      let reviewCount = reviews[0].ratingCount.split(':');
+      return {
+        recentReviews: reviewText[0],
+        recentReviewCount: reviewCount[0],
+        allReviews: reviewText[1],
+        allReviewsCount: reviewCount[1]
+      };
+    } else {
+      return {
+        allReviews: reviews[0].reviewText,
+        allReviewCount: reviews[0].ratingCount
+      }
+    }
+  }
+
   const responseInfo = {
     gameName: gameInstance.gameName,
+    releaseDate: gameInstance.releaseDate,
+    gameDescription: gameInstance.description,
     developerName: developer.developerName,
     publisherName: publisher.publisherName,
     gameTags: tags.map(obj => obj.tagName),
-    gameReviews: {
-      review: reviews[0].reviewText,
-      ratingCount: reviews[0].ratingCount
-    },
+    gameReviews: formatReviews(),
     gameMedia: media.map(obj => {
       return {
         mediaType: obj.mediaType,

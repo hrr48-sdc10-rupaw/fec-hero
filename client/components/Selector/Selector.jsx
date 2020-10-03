@@ -12,7 +12,7 @@ const Selector = (props) => {
     // console.log('selector got the following info: ', imageArray);
     imageArray = props.imgList.slice(1).map((val, idx) => {
       if (val.mediaType === 0) {
-        return <SelectorSingleImage key={idx} imgUrl={val.mediaUrl} />
+        return <SelectorSingleImage imgClickHandler={props.imgClickHandler} key={idx} imgUrl={val.mediaUrl} />
       }
     })
   }
