@@ -7,6 +7,8 @@
   --main-editor-text-color: #e6e7e8;
   --main-editor-input-bg-color: #30333b;
   --main-editor-section-title-color: #a3a3a3;
+  margin: 0px;
+  padding: 0px;
 }
 
 body {

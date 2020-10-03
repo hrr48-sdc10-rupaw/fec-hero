@@ -82,7 +82,7 @@ module.exports = {
         },
         {
           gameId: 1,
-          mediaType: 0,
+          mediaType: 2,
           mediaUrl: 'https://hack-reactor-projects.s3-us-west-1.amazonaws.com/fec/0/images/bg.jpg'
         }
       ]);

@@ -28,11 +28,6 @@
   display: flex;
 }
 
-#heroAppContainer {
-  display: flex;
-  flex-direction: column;
-}
-
 .tagContainer {
   display: flex;
 }
@@ -46,11 +41,11 @@
 
 @media screen and (min-width:900px) {
   #hero {
-    width: 910px;
-    height: 600px;
+    width: 945px;
+    max-height: 600px;
     display: grid;
     grid-template-columns: 3fr 1.7fr;
-    grid-template-rows: 100px 4fr 1fr 50px;
+    grid-template-rows: 60px 340px 70px 50px;
     grid-row-gap: 5px;
     grid-column-gap: 5px;
     grid-template-areas:
@@ -58,6 +53,7 @@
     'selected infoSection'
     'selector infoSection'
     'scroller infoSection';
+    background: linear-gradient(to right, rgba(0,0,0,0) 50%,rgba(0,0,0,0.4) 100%);
   }
 }
 
@@ -117,4 +113,16 @@
 
 #infoValues {
   margin-left: 10px;
+}
+
+.lightText {
+  color: #556772;
+}
+
+.infoKey {
+  color: #556772;
+}
+
+.infoValue {
+  color: #67c1f5
 }

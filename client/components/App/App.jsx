@@ -67,7 +67,7 @@ const App = (props) => {
       if (gameInfo.gameReviews.recentReviews) {
         infoKeys = 'RECENT REVIEWS:#ALL REVIEWS:#RELEASE DATE:#DEVELOPER:#PUBLISHER'.split('#');
       } else {
-        infoKeys = 'ALL REVIEWS:#RELEASE DATE:#DEVEOPER:#PUBLISHER'.split(':');
+        infoKeys = 'ALL REVIEWS:#RELEASE DATE:#DEVEOPER:#PUBLISHER'.split('#');
       }
       return infoKeys.map((val, idx) => {
         return <SmallInfo key={idx} infoType='infoKey' infoValue={val} />
@@ -83,6 +83,10 @@ const App = (props) => {
       if (gameInfo.gameReviews.recentReviews) {
         let rev = gameInfo.gameReviews;
         infoValues = [
+          // <div>
+          //   <span className="infoValue">{rev.recentReviews}</span>
+          //   <span className="lightText">{rev.recentReviewCount}</span>
+          // </div>
           `${rev.recentReviews} (${rev.recentReviewCount})`,
           `${rev.allReviews} (${rev.allReviewsCount})`,
           gameInfo.releaseDate,
@@ -92,7 +96,7 @@ const App = (props) => {
       } else {
         let rev = gameInfo.gameReviews;
         infoValues = [
-          `${rev.allReviews} (${rev.allReviewsCount})`,
+          `${rev.allReviews} (${rev.allReviewCount})`,
           gameInfo.releaseDate,
           gameInfo.developerName,
           gameInfo.publisherName
@@ -132,7 +136,12 @@ const App = (props) => {
           <div className="outlined" id="infoKeys">{getInfoKeys()}</div>
           <div className="outlined" id="infoValues">{getInfoValues()}</div>
         </div>
-        <div className="outlined tagContainer" id="tag">{getTopTags()}</div>
+        <div className="outlined" id="tag">
+          <p className="lightText">Popular user-defined tags for this product</p>
+          <div className="tagContainer">
+            {getTopTags()}
+          </div>
+        </div>
       </div>
     </section>
   )
