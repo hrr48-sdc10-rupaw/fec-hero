@@ -54,6 +54,9 @@
     'selector infoSection'
     'scroller infoSection';
     background: linear-gradient(to right, rgba(0,0,0,0) 50%,rgba(0,0,0,0.4) 100%);
+    background: url('https://steamstore-a.akamaihd.net/public/images/v6/app/game_page_background_shadow.png?v=2');
+    background-repeat: no-repeat;
+    background-position: center bottom;
   }
 }
 

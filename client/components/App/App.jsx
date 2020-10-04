@@ -7,6 +7,7 @@ import HeaderImg from '../HeaderImg/HeaderImg.jsx';
 import Description from '../Description/Description.jsx';
 import GameHeading from '../GameHeading/GameHeading.jsx';
 import Tag from '../Tag/Tag.jsx';
+import Scroller from '../Scroller/Scroller.jsx';
 
 const App = (props) => {
 
@@ -152,7 +153,7 @@ const App = (props) => {
       <div className="outlined" id="topHeading"><GameHeading gameName={gameInfo.gameName === null ? '' : gameInfo.gameName} /></div>
       <div className="outlined" id="selected"><Selected imgUrl={selectedImgUrl} /></div>
       <div className="outlined" id="selector"><Selector imgClickHandler={imageClickHandler} imgList={gameInfo.gameMedia} /></div>
-      <div className="outlined" id="scroller">Scroller</div>
+      <div className="outlined" id="scroller"><Scroller /></div>
       <div id="infoSection">
         <div className="outlined" id="headerImg"><HeaderImg imgUrl={getHeaderImgUrl()}/></div>
         <div className="outlined" id="description"><Description description={getGameDescription()} /></div>
