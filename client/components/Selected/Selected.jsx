@@ -5,7 +5,12 @@ import './style.css';
 const Selected = (props) => {
   let conditionalModal;
   if (props.showModal) {
-    conditionalModal = <Modal handleModalClick={props.handleModalClick} imgUrl={props.imgUrl}/>;
+    conditionalModal = <Modal
+      imagePosition={props.imagePosition}
+      carouselLength={props.carouselLength}
+      handleScrollButtonClick={props.handleScrollButtonClick}
+      handleModalClick={props.handleModalClick}
+      imgUrl={props.imgUrl}/>;
   } else {
     conditionalModal = <></>;
   }

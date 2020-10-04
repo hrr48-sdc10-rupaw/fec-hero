@@ -12,7 +12,11 @@ const Modal = props => {
       <div id="modal" onClick={(e) => {
         props.handleModalClick(e.target.id);
       }}>
-        <ModalContent imgUrl={props.imgUrl}/>
+        <ModalContent
+          imagePosition={props.imagePosition}
+          carouselLength={props.carouselLength}
+          handleScrollButtonClick={props.handleScrollButtonClick}
+          imgUrl={props.imgUrl}/>
       </div>
       , modalRoot
     )

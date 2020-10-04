@@ -4,7 +4,7 @@ import './style.css';
 
 const Selector = (props) => {
 
-  console.log('received following props: ', props);
+  // console.log('received following props: ', props);
   let imageArray;
   if (props.imgList === undefined) {
     imageArray = <></>

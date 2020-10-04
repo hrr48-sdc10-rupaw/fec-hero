@@ -3,13 +3,13 @@ import './style.css';
 import ScrollButton from './ScrollButton/ScrollButton.jsx';
 import Slider from './Slider/Slider.jsx';
 
-const Scroller = () => {
+const Scroller = (props) => {
 
   return (
     <div id="scrollerContainer">
-      <ScrollButton direction='right'/>
+      <ScrollButton handleScrollButtonClick={props.handleScrollButtonClick} direction='left'/>
       <Slider />
-      <ScrollButton direction="left"/>
+      <ScrollButton handleScrollButtonClick={props.handleScrollButtonClick} direction="right"/>
     </div>
   )
 

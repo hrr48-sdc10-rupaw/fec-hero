@@ -12,10 +12,12 @@ import Scroller from '../Scroller/Scroller.jsx';
 const App = (props) => {
 
   const [gameInfo, setGameInfo] = useState({gameName: null});
-  const [selectedImg, setSelectedImg] = useState(1);
+  const [selectedImg, setSelectedImg] = useState(0);
   const [selectedImgUrl, setSelectedImgUrl] = useState('');
   const [backgroundImgUrl, setBackgroundImgUrl] = useState('');
   const [isModal, setIsModal] = useState(false);
+  const [carouselLength, setcarouselLength] = useState(0);
+  const [carouselImages, setcarouselImages] = useState([]);
 
   useEffect((id) => {
     getGameInfo(id);
@@ -31,15 +33,20 @@ const App = (props) => {
         .then(res => {
           console.log('following data received from server: ', res.data)
           setGameInfo(res.data)
-          setSelectedImgUrl(res.data.gameMedia[1].mediaUrl)
           let backgroundImgData = res.data.gameMedia.filter(val => val.mediaType === 2);
-          // console.log(backgroundImgData[0].mediaUrl)
-          setBackgroundImgUrl(backgroundImgData[0].mediaUrl);
           // setting the background image
           let body = document.getElementById('body');
           body.style.backgroundImage = `url(${backgroundImgData[0].mediaUrl})`
+          // setting images for carousel
+          let images = res.data.gameMedia.filter(val => val.mediaType === 0 ).slice(1);
+          console.log(images);
+          setcarouselLength(images.length);
+          setcarouselImages(images);
+          // setSelectedImgUrl(carouselImages[0].mediaUrl)
+          setSelectedImgUrl(res.data.gameMedia[1].mediaUrl)
+          setBackgroundImgUrl(backgroundImgData[0].mediaUrl);
         })
-        .catch(err => console.log('error fetching data from the server'));
+        .catch(err => console.log('error fetching data from the server: ', err));
     } else {
       return;
     }
@@ -98,7 +105,6 @@ const App = (props) => {
     if (gameInfo.gameName !== null) {
       if (gameInfo.gameReviews.recentReviews) {
         let rev = gameInfo.gameReviews;
-        console.log(rev)
         infoValues = [
           <div key="0" className="infoReviewContainer">
             <div className="infoReview">
@@ -149,27 +155,60 @@ const App = (props) => {
     }
   }
 
+  // this function checks if a click is encountered outside modal.
+  // if yes, set the state isModal to false, so that modal stops
+  // showing
   const handleModalClick = (id) => {
     if (id === 'modal') {
       setIsModal(!isModal);
     }
   }
 
+  // this function sets the state such that modal is displayed
   const handleSelectedClick = () => {
     let modalStatus = isModal;
     setIsModal(!modalStatus);
   }
 
+  const handleScrollButtonClick = (direction) => {
+    // debugger;
+    if (direction === 'right' || direction === 'imageClick') {
+      if (selectedImg < carouselLength - 1) {
+        setSelectedImgUrl(carouselImages[selectedImg+1].mediaUrl);
+        setSelectedImg(selectedImg + 1);
+      }
+      else {
+        setSelectedImgUrl(carouselImages[0].mediaUrl);
+        setSelectedImg(0);
+      }
+    } else if (direction === 'left') {
+      if (selectedImg > 0) {
+        setSelectedImgUrl(carouselImages[selectedImg - 1].mediaUrl);
+        setSelectedImg(selectedImg - 1);
+      } else {
+        setSelectedImgUrl(carouselImages[carouselLength - 1].mediaUrl);
+        setSelectedImg(carouselLength - 1);
+      }
+    }
+  }
+
   return (
     <section className="outlined" id="hero">
-      <div className="outlined" id="topHeading"><GameHeading gameName={gameInfo.gameName === null ? '' : gameInfo.gameName} /></div>
+      <div className="outlined" id="topHeading"><GameHeading
+        gameName={gameInfo.gameName === null ? '' : gameInfo.gameName} /></div>
       <div className="outlined" id="selected"><Selected
+        imagePosition={selectedImg + 1}
+        carouselLength={carouselLength}
+        handleScrollButtonClick={handleScrollButtonClick}
         handleSelectedClick={handleSelectedClick}
         handleModalClick={handleModalClick}
         showModal={isModal}
         imgUrl={selectedImgUrl} /></div>
-      <div className="outlined" id="selector"><Selector imgClickHandler={imageClickHandler} imgList={gameInfo.gameMedia} /></div>
-      <div className="outlined" id="scroller"><Scroller /></div>
+      <div className="outlined" id="selector"><Selector
+        imgClickHandler={imageClickHandler}
+        imgList={gameInfo.gameMedia} /></div>
+      <div className="outlined" id="scroller"><Scroller
+        handleScrollButtonClick={handleScrollButtonClick}/></div>
       <div id="infoSection">
         <div className="outlined" id="headerImg"><HeaderImg imgUrl={getHeaderImgUrl()}/></div>
         <div className="outlined" id="description"><Description description={getGameDescription()} /></div>
