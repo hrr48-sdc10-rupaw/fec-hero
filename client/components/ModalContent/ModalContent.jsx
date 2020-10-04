@@ -5,6 +5,7 @@ import './style.css';
 const ModalContent = (props) => {
   return (
     <div id="modalContent">
+      <p>Download full-size version</p>
       <img id="modalImg" src={props.imgUrl} alt="modal image" onClick={() => {
         props.handleScrollButtonClick('imageClick');
       }}></img>
