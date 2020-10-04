@@ -1,0 +1,21 @@
+#modalContent {
+  z-index: 1000;
+  background: linear-gradient( 135deg, #356480 5%,#1a303d 95%);
+  padding: 10px;
+  /* max-width: 800px; */
+  max-width: 70%;
+  /* max-height: 80%; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  object-fit: contain;
+}
+
+#modalImg {
+  /* max-height: 80%; */
+  /* max-width: 60%; */
+  cursor: pointer;
+  max-height: 100%;
+  max-width: 100%;
+}

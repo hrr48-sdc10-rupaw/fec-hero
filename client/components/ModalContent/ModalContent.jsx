@@ -1,10 +1,10 @@
 import React from 'react';
 import './style.css';
 
-const ModalContent = () => {
+const ModalContent = (props) => {
   return (
     <div id="modalContent">
-      <p>Hi. I am a Modal!</p>
+      <img id="modalImg" src={props.imgUrl} alt="modal image"></img>
     </div>
   )
 };

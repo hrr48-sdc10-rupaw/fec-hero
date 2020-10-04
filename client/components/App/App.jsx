@@ -15,6 +15,7 @@ const App = (props) => {
   const [selectedImg, setSelectedImg] = useState(1);
   const [selectedImgUrl, setSelectedImgUrl] = useState('');
   const [backgroundImgUrl, setBackgroundImgUrl] = useState('');
+  const [isModal, setIsModal] = useState(false);
 
   useEffect((id) => {
     getGameInfo(id);
@@ -148,10 +149,25 @@ const App = (props) => {
     }
   }
 
+  const handleModalClick = (id) => {
+    if (id === 'modal') {
+      setIsModal(!isModal);
+    }
+  }
+
+  const handleSelectedClick = () => {
+    let modalStatus = isModal;
+    setIsModal(!modalStatus);
+  }
+
   return (
     <section className="outlined" id="hero">
       <div className="outlined" id="topHeading"><GameHeading gameName={gameInfo.gameName === null ? '' : gameInfo.gameName} /></div>
-      <div className="outlined" id="selected"><Selected imgUrl={selectedImgUrl} /></div>
+      <div className="outlined" id="selected"><Selected
+        handleSelectedClick={handleSelectedClick}
+        handleModalClick={handleModalClick}
+        showModal={isModal}
+        imgUrl={selectedImgUrl} /></div>
       <div className="outlined" id="selector"><Selector imgClickHandler={imageClickHandler} imgList={gameInfo.gameMedia} /></div>
       <div className="outlined" id="scroller"><Scroller /></div>
       <div id="infoSection">
