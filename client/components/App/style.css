@@ -1,5 +1,5 @@
 .outlined {
-  border: 1px solid red;
+  /* border: 1px solid red; */
 }
 
 #topHeading {
@@ -17,19 +17,35 @@
 #infoSection {
   grid-area: infoSection;
   height: 100%;
+  padding-left: 10px;
 }
 
 #scroller {
   grid-area: scroller;
 }
 
+#additionalInfo {
+  display: flex;
+}
+
+.tagContainer {
+  display: flex;
+}
+
+#body {
+  /* background-size: cover; */
+  background-repeat: no-repeat;
+  background-position: center top;
+  /* min-width: 90vw; */
+}
+
 @media screen and (min-width:900px) {
   #hero {
-    width: 910px;
-    height: 600px;
+    width: 945px;
+    max-height: 600px;
     display: grid;
-    grid-template-columns: 3fr 1fr;
-    grid-template-rows: 100px 4fr 1fr 50px;
+    grid-template-columns: 3fr 1.7fr;
+    grid-template-rows: 60px 340px 70px 50px;
     grid-row-gap: 5px;
     grid-column-gap: 5px;
     grid-template-areas:
@@ -37,6 +53,10 @@
     'selected infoSection'
     'selector infoSection'
     'scroller infoSection';
+    background: linear-gradient(to right, rgba(0,0,0,0) 50%,rgba(0,0,0,0.4) 100%);
+    background: url('https://steamstore-a.akamaihd.net/public/images/v6/app/game_page_background_shadow.png?v=2');
+    background-repeat: no-repeat;
+    background-position: center bottom;
   }
 }
 
@@ -60,10 +80,10 @@
     grid-template-rows: repeat(6, 1fr);
     grid-template-areas:
     'headerImg description'
-    'headerImg reviews'
-    'headerImg date'
-    'headerImg dev'
-    'headerImg pub'
+    'headerImg additionalInfo'
+    'headerImg additionalInfo'
+    'headerImg additionalInfo'
+    'headerImg additionalInfo'
     'tag tag';
   }
 
@@ -92,4 +112,40 @@
     'scroller scroller'
     ;
   }
+}
+
+#infoValues {
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.lightText {
+  color: #556772;
+}
+
+.infoKey {
+  color: #556772;
+}
+
+.infoValue {
+  color: #67c1f5
+}
+
+.infoReviewContainer {
+  margin-bottom: 10px;
+  line-height: 15px;
+}
+
+.infoDateContainer {
+  margin-bottom: 10px;
+}
+
+.infoDevPubContainer {
+  margin-bottom: 10px;
+}
+
+#tag {
+  line-height: 0px;
 }

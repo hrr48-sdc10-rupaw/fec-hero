@@ -1,0 +1,6 @@
+#selector {
+  display: flex;
+  height: 120px;
+  overflow: hidden;
+  /* overflow-x: scroll; */
+}

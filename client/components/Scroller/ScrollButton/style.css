@@ -1,0 +1,30 @@
+.scrollButton {
+  width: 38px;
+  height: 40%;
+  border-radius: 3px;
+  text-align: center;
+  text-justify: center;
+  background-color: rgba( 35, 60, 81, 0.4 );
+}
+
+.scrollButton:hover {
+  background: linear-gradient(135deg,  #3d6c8d 0%,#2e5470 100%);
+  cursor: pointer;
+}
+
+.modalNextButton {
+  color: #67c1f5;
+  background: rgba( 103, 193, 245, 0.2 );
+  align-self: flex-end;
+  border-radius: 2px;
+  padding: 1px;
+  cursor: pointer;
+  line-height: 26px;
+  margin-top: 10px  ;
+  padding: 0 15px;
+}
+
+.modalNextButton:hover {
+  background: linear-gradient( -60deg, #417a9b 5%,#67c1f5 95%);
+  color: #fff;
+}

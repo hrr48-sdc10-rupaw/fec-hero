@@ -1,6 +1,8 @@
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
+const logger = require('morgan');
+const path = require('path');
 const port = process.env.PORT || 3000;
 const {
   Game,
@@ -13,16 +15,20 @@ const {
 } = require('../database/models');
 
 // console.log(Game.prototype);
-
 app = express();
+app.use(logger('dev'));
+app.use('/', express.static(path.join(__dirname, '../dist')))
 
 app.get('/api/hero/health', (req, res) => {
-  console.log('\nGET /health')
   res.json({serverResponse: 'OK'});
 })
 
+app.get('/', (req, res) => {
+  res.send({serverResponse: 'OK'});
+})
+
 app.get('/api/hero/all_info/:id', async (req, res) => {
-  console.log('GET /api/hero/all_info/:id');
+  // console.log('GET /api/hero/all_info/:id');
   const id = req.params.id;
   console.log('sending all the info for id: ', id);
   let gameInstance;
@@ -48,15 +54,32 @@ app.get('/api/hero/all_info/:id', async (req, res) => {
 
   [publisher, developer, tags, reviews, media] = await Promise.all([publisher, developer, tags, reviews, media]);
 
+  const formatReviews = () => {
+    if (reviews[0].reviewText.includes(':')) {
+      let reviewText = reviews[0].reviewText.split(':');
+      let reviewCount = reviews[0].ratingCount.split(':');
+      return {
+        recentReviews: reviewText[0],
+        recentReviewCount: reviewCount[0],
+        allReviews: reviewText[1],
+        allReviewsCount: reviewCount[1]
+      };
+    } else {
+      return {
+        allReviews: reviews[0].reviewText,
+        allReviewCount: reviews[0].ratingCount
+      }
+    }
+  }
+
   const responseInfo = {
     gameName: gameInstance.gameName,
+    releaseDate: gameInstance.releaseDate,
+    gameDescription: gameInstance.description,
     developerName: developer.developerName,
     publisherName: publisher.publisherName,
     gameTags: tags.map(obj => obj.tagName),
-    gameReviews: {
-      review: reviews[0].reviewText,
-      ratingCount: reviews[0].ratingCount
-    },
+    gameReviews: formatReviews(),
     gameMedia: media.map(obj => {
       return {
         mediaType: obj.mediaType,

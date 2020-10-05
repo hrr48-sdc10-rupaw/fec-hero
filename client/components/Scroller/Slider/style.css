@@ -1,0 +1,14 @@
+.sliderHandle {
+  width: 60px;
+  height: 18px;
+  cursor: pointer;
+  background-color: rgba( 35, 60, 81, 0.4 );
+  position: relative;
+  border-radius: 3px;
+  /* left: 100px; */
+  /* right: 150px; */
+}
+
+.sliderHandle:hover {
+  background: linear-gradient(135deg, #3d6c8d 0%,#2e5470 100%);
+}

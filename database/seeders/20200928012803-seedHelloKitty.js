@@ -79,6 +79,11 @@ module.exports = {
           gameId: 1,
           mediaType: 1,
           mediaUrl: 'https://steamcdn-a.akamaihd.net/steam/apps/2040600/movie480.webm?t=1447376982'
+        },
+        {
+          gameId: 1,
+          mediaType: 2,
+          mediaUrl: 'https://hack-reactor-projects.s3-us-west-1.amazonaws.com/fec/0/images/bg.jpg'
         }
       ]);
 
