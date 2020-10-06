@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import axios from 'axios';
 import './style.css';
 import Selected from '../Selected/Selected.jsx';
@@ -22,6 +22,25 @@ const App = (props) => {
   useEffect((id) => {
     getGameInfo(id);
   });
+
+  const carouselImagesRef = useRef([]);
+  const selectedImgRef = useRef(0);
+  const carouselLengthRef = useRef(0);
+  carouselImagesRef.current = carouselImages;
+  selectedImgRef.current = selectedImg;
+  carouselLengthRef.current = carouselLength
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (selectedImgRef < carouselLengthRef - 1) {
+        setSelectedImgUrl(carouselImagesRef[selectedImg+1].mediaUrl);
+        setSelectedImg(selectedImg + 1);
+      }
+      else {
+        setSelectedImgUrl(carouselImagesRef[0].mediaUrl);
+        setSelectedImg(0);
+    }}, 10000);
+    return () => clearInterval(interval);
+  }, []);
 
   const imageClickHandler = (imgUrl) => {
     setSelectedImgUrl(imgUrl);
@@ -190,6 +209,12 @@ const App = (props) => {
         setSelectedImg(carouselLength - 1);
       }
     }
+  }
+
+  const changeSelectedImg = () => {
+    setInterval(() => {
+      handleScrollButtonClick('right');
+    }, 5000)
   }
 
   return (
