@@ -18,6 +18,7 @@ const App = (props) => {
   const [isModal, setIsModal] = useState(false);
   const [carouselLength, setcarouselLength] = useState(0);
   const [carouselImages, setcarouselImages] = useState([]);
+  const [timerId, setTimer] = useState(false);
 
   useEffect(() => {
     getGameInfo();
