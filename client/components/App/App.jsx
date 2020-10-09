@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import axios from 'axios';
 import './style.css';
 import Selected from '../Selected/Selected.jsx';
@@ -18,11 +18,21 @@ const App = (props) => {
   const [isModal, setIsModal] = useState(false);
   const [carouselLength, setcarouselLength] = useState(0);
   const [carouselImages, setcarouselImages] = useState([]);
-  const [timerId, setTimer] = useState(false);
+  let timerIdRef = useRef();
 
   useEffect(() => {
     getGameInfo();
-  });
+  }, []);
+
+  useEffect(() => {
+    let timerId = setInterval(() => handleScrollButtonClick('right'), 3000);
+    // console.log('following timer id set: ' , timerId);
+    timerIdRef.current = timerId
+    return (() => {
+      // console.log('following timer is removed: ', timerId)
+      clearInterval(timerIdRef.current);
+    });
+  })
 
   const imageClickHandler = (imgUrl) => {
     setSelectedImgUrl(imgUrl);
@@ -176,11 +186,14 @@ const App = (props) => {
   // this function sets the state such that modal is displayed
   const handleSelectedClick = () => {
     let modalStatus = isModal;
-    setIsModal(!modalStatus);
+    setIsModal(!modalStatus)
+    clearInterval(timerIdRef.current);
+
   }
 
   const handleScrollButtonClick = (direction) => {
     // debugger;
+    // console.log('running the button to scroll')
     if (direction === 'right' || direction === 'imageClick') {
       if (selectedImg < carouselLength - 1) {
         setSelectedImgUrl(carouselImages[selectedImg+1].mediaUrl);
@@ -214,6 +227,7 @@ const App = (props) => {
         showModal={isModal}
         imgUrl={selectedImgUrl} /></div>
       <div className="outlined" id="selector"><Selector
+        highlightedImage={selectedImg + 1}
         imgClickHandler={imageClickHandler}
         imgList={gameInfo.gameMedia} /></div>
       <div className="outlined" id="scroller"><Scroller
