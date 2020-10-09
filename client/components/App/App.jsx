@@ -18,10 +18,21 @@ const App = (props) => {
   const [isModal, setIsModal] = useState(false);
   const [carouselLength, setcarouselLength] = useState(0);
   const [carouselImages, setcarouselImages] = useState([]);
+  let timerIdRef = useRef();
 
-  useEffect((id) => {
-    getGameInfo(id);
-  });
+  useEffect(() => {
+    getGameInfo();
+  }, []);
+
+  useEffect(() => {
+    let timerId = setInterval(() => handleScrollButtonClick('right'), 3000);
+    // console.log('following timer id set: ' , timerId);
+    timerIdRef.current = timerId
+    return (() => {
+      // console.log('following timer is removed: ', timerId)
+      clearInterval(timerIdRef.current);
+    });
+  })
 
   const carouselImagesRef = useRef([]);
   const selectedImgRef = useRef(0);
@@ -46,23 +57,31 @@ const App = (props) => {
     setSelectedImgUrl(imgUrl);
   }
 
-  function getGameInfo(id=2) {
+  function getGameInfo() {
+    let params = (new URL(document.location)).searchParams;
+    let id = params.get('id');
+    if (id === null) {
+      id = 2;
+    }
     if (gameInfo.gameName === null) {
       axios.get(`/api/hero/all_info/${id}`)
         .then(res => {
-          console.log('following data received from server: ', res.data)
-          setGameInfo(res.data)
+          setGameInfo(prevState => res.data)
           let backgroundImgData = res.data.gameMedia.filter(val => val.mediaType === 2);
           // setting the background image
-          let body = document.getElementById('body');
+          let body = document.querySelector('body');
           body.style.backgroundImage = `url(${backgroundImgData[0].mediaUrl})`
+          body.style.backgroundPosition = `center top`;
+          body.style.backgroundRepeat = `no-repeat`;
           // setting images for carousel
           let images = res.data.gameMedia.filter(val => val.mediaType === 0 ).slice(1);
           console.log(images);
           setcarouselLength(images.length);
           setcarouselImages(images);
           // setSelectedImgUrl(carouselImages[0].mediaUrl)
-          setSelectedImgUrl(res.data.gameMedia[1].mediaUrl)
+          setSelectedImgUrl(prevState => {
+            return res.data.gameMedia[1].mediaUrl
+          });
           setBackgroundImgUrl(backgroundImgData[0].mediaUrl);
         })
         .catch(err => console.log('error fetching data from the server: ', err));
@@ -186,11 +205,14 @@ const App = (props) => {
   // this function sets the state such that modal is displayed
   const handleSelectedClick = () => {
     let modalStatus = isModal;
-    setIsModal(!modalStatus);
+    setIsModal(!modalStatus)
+    clearInterval(timerIdRef.current);
+
   }
 
   const handleScrollButtonClick = (direction) => {
     // debugger;
+    // console.log('running the button to scroll')
     if (direction === 'right' || direction === 'imageClick') {
       if (selectedImg < carouselLength - 1) {
         setSelectedImgUrl(carouselImages[selectedImg+1].mediaUrl);
@@ -230,6 +252,7 @@ const App = (props) => {
         showModal={isModal}
         imgUrl={selectedImgUrl} /></div>
       <div className="outlined" id="selector"><Selector
+        highlightedImage={selectedImg + 1}
         imgClickHandler={imageClickHandler}
         imgList={gameInfo.gameMedia} /></div>
       <div className="outlined" id="scroller"><Scroller

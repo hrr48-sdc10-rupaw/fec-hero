@@ -149,3 +149,7 @@
 #tag {
   line-height: 0px;
 }
+
+.isHighlighted {
+  border: 2px solid #d6d7d8;
+}
