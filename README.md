@@ -7,7 +7,7 @@ This repo contains the code for the hero section of front end capstone at hackre
 3. For further control, take a look at `database/config/config.js` to configure three different environments, `dev`, `test` and `production`, and edit the `.env` along with `config.js`.
 
 ## Database design
-Database schema: ![Database Schema]('./databaseSchema.png')
+Database schema: ![Database Schema]('https://github.com/Jamie-Lee-Birdis/hero-section/blob/master/databaseSchema.png')
 
 ## Running the service
 1. Seed the database
