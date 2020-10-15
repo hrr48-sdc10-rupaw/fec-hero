@@ -32,9 +32,9 @@ npm run start-dev
 
 4. Check the result in the browser at `localhost:3001`
 
-##CRUD
+## CRUD
 
-###GET /api/hero/all_info/<id>
+### GET /api/hero/all_info/<id>
 
 Gets a variant of the data held for <id>. Returns the following JSON structure:
 ```json
@@ -61,7 +61,7 @@ Gets a variant of the data held for <id>. Returns the following JSON structure:
 ```
 0 is an image, 1 is a video, and 2 is the background image for the product.
 
-###POST /api/hero/all_info/
+### POST /api/hero/all_info/
 
 Creates entry. Requires JSON structure:
 
@@ -87,10 +87,10 @@ Creates entry. Requires JSON structure:
 ```
 0 is an image, 1 is a video. Returns the ID of the new entry.
 
-###UPDATE /api/hero/all_info/<id>
+### UPDATE /api/hero/all_info/<id>
 
 Takes the same JSON structure as in POST, but only those elements you want to change. <id> must exist.
 
-###DELETE /api/hero/all_info/<id>
+### DELETE /api/hero/all_info/<id>
 
 Deletes <id>, or does nothing if <id> doesn't exist. Returns nothing.
