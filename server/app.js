@@ -111,7 +111,7 @@ app.post('/api/hero/all_info/', async function(req, res) {
   let game = await Game.create(req.body.info);
   if (!game) {
     console.log("Create failed");
-    res.sendStatus(500);
+    return res.sendStatus(500);
   }
   let x = game.setTags([]);
   let y = game.createGameReview({
@@ -119,18 +119,20 @@ app.post('/api/hero/all_info/', async function(req, res) {
     reviewText: 'Mixed:Mixed'
   });
   let z = GameMedia.create({
-    id: game.id,
+    gameId: game.id,
     mediaType: 2,
     mediaUrl: req.body.media.bg
   })
-  let w = GameMedia.bulkCreate(req.body.media.slides);
+  let w = GameMedia.bulkCreate(req.body.media.slides.map(g => {
+    g.gameId = game.id;
+    return g;
+  }));
   Promise.all([x, y, z, w])
     .then(res.send(`${game.id}`))
     .catch(why => {
       console.log(why);
       res.sendStatus(500);
     });
-
 });
 
 app.delete('/api/hero/all_info/:id', async function(req, res) {
