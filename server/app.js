@@ -18,6 +18,7 @@ const {
 app = express();
 app.use(logger('dev'));
 app.use('/', express.static(path.join(__dirname, '../dist')))
+app.use(express.json());
 
 app.get('/api/hero/health', (req, res) => {
   res.json({serverResponse: 'OK'});
@@ -44,7 +45,9 @@ app.get('/api/hero/all_info/:id', async (req, res) => {
     res.send({serverResponse: 'Not Found'});
     return;
   }
-
+  if (!gameInstance) {
+    return res.sendStatus(404);
+  }
   // console.log(gameInstance[0].__proto__);
   let publisher = gameInstance.getPublisher();
   let developer = gameInstance.getDeveloper();
@@ -89,7 +92,53 @@ app.get('/api/hero/all_info/:id', async (req, res) => {
   };
   res.status(200);
   res.json(responseInfo);
-})
+});
+
+//SDC CRUD
+const validp = function(game) {
+  return game.gameName && typeof(game.gameName) === 'string'
+  && game.releaseDate && typeof(game.releaseDate) === 'string'
+  && game.description && typeof(game.description) === 'string'
+  && game.developerId !== undefined && typeof(game.developerId) === 'number'
+  && game.publisherId !== undefined && typeof(game.publisherId) === 'number';
+};
+
+app.post('/api/hero/all_info/', async function(req, res) {
+  console.log(req.body);
+  if (!validp(req.body.info)) {
+    return res.sendStatus(400);
+  }
+  let game = await Game.create(req.body.info);
+  if (!game) {
+    console.log("Create failed");
+    res.sendStatus(500);
+  }
+  let x = game.setTags([]);
+  let y = game.createGameReview({
+    ratingCount: '0:0',
+    reviewText: 'Mixed:Mixed'
+  });
+  let z = GameMedia.create({
+    id: game.id,
+    mediaType: 2,
+    mediaUrl: req.body.media.bg
+  })
+  let w = GameMedia.bulkCreate(req.body.media.slides);
+  Promise.all([x, y, z, w])
+    .then(res.send(`${game.id}`))
+    .catch(why => {
+      console.log(why);
+      res.sendStatus(500);
+    });
+
+});
+
+app.delete('/api/hero/all_info/:id', async function(req, res) {
+  let x = Game.destroy({where: {id: req.params.id}});
+  let y = GameReview.destroy({where: {gameId: req.params.id}});
+  let z = GameMedia.destroy({where: {gameId: req.params.id}});
+  Promise.all([x, y, z]).then(()=> res.sendStatus(200));
+});
 
 let server;
 const start = () => {
