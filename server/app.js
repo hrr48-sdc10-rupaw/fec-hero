@@ -104,7 +104,6 @@ const validp = function(game) {
 };
 
 app.post('/api/hero/all_info/', async function(req, res) {
-  console.log(req.body);
   if (!validp(req.body.info)) {
     return res.sendStatus(400);
   }
@@ -141,6 +140,32 @@ app.delete('/api/hero/all_info/:id', async function(req, res) {
   let z = GameMedia.destroy({where: {gameId: req.params.id}});
   Promise.all([x, y, z]).then(()=> res.sendStatus(200));
 });
+
+app.put('/api/hero/all_info/:id', async function(req, res) {
+  let g = await Game.findOne({where: {id: req.params.id}});
+  if(!g) {
+    return res.sendStatus(404);
+  }
+  let u1 = Game.update(req.body.info, {where: {id: req.params.id}});
+  let u2;
+  if (req.body.media && req.body.media.slides) {
+    const imgs = req.body.media.slides;
+    if (req.body.media.slides) {
+      imgs.push({mediaUrl: req.body.media.bg, mediaType: 2});
+    }
+    u2 = GameMedia.update(imgs, {where: {gameId: req.params.id}});
+  } else {
+    u2 = Promise.resolve();
+  }
+
+  Promise.all([u1, u2])
+    .then(()=> res.sendStatus(200))
+    .catch(why => {
+      console.log(why);
+      res.sendStatus(500);
+    });
+});
+
 
 let server;
 const start = () => {

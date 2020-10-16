@@ -87,7 +87,7 @@ Creates entry. Requires JSON structure:
 ```
 0 is an image, 1 is a video. Returns the ID of the new entry.
 
-### UPDATE /api/hero/all_info/<id>
+### PUT /api/hero/all_info/<id>
 
 Takes the same JSON structure as in POST, but only those elements you want to change. <id> must exist.
 
