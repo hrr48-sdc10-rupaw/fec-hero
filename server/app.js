@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
 const path = require('path');
+const db = require('./db.js');
 const port = process.env.PORT || 3001;
 const {
   Game,
@@ -20,78 +21,36 @@ app.use(logger('dev'));
 app.use('/', express.static(path.join(__dirname, '../dist')))
 app.use(express.json());
 
-app.get('/api/hero/health', (req, res) => {
-  res.json({serverResponse: 'OK'});
-})
-
 app.get('/', (req, res) => {
   res.send({serverResponse: 'OK'});
 })
 
 app.get('/api/hero/all_info/:id', async (req, res) => {
-  // console.log('GET /api/hero/all_info/:id');
-  const id = req.params.id;
-  console.log('sending all the info for id: ', id);
-  let gameInstance;
-  try {
-    gameInstance = await Game.findOne({
-      where: {
-        id: id
-      }
-    });
-  } catch (err) {
-    console.log('following error occured: ', err);
-    res.status(404);
-    res.send({serverResponse: 'Not Found'});
-    return;
+  const id = parseInt(req.params.id);
+  if(isNaN(id)) {
+    console.log(id);
+    return res.sendStatus(400);
   }
-  if (!gameInstance) {
+  const data = await db.get(req.params.id);
+  if (data === null) {
     return res.sendStatus(404);
   }
-  // console.log(gameInstance[0].__proto__);
-  let publisher = gameInstance.getPublisher();
-  let developer = gameInstance.getDeveloper();
-  let tags = gameInstance.getTags();
-  let reviews = gameInstance.getGameReviews();
-  let media = gameInstance.getGameMedia();
-
-  [publisher, developer, tags, reviews, media] = await Promise.all([publisher, developer, tags, reviews, media]);
-
-  const formatReviews = () => {
-    if (reviews[0].reviewText.includes(':')) {
-      let reviewText = reviews[0].reviewText.split(':');
-      let reviewCount = reviews[0].ratingCount.split(':');
-      return {
-        recentReviews: reviewText[0],
-        recentReviewCount: reviewCount[0],
-        allReviews: reviewText[1],
-        allReviewsCount: reviewCount[1]
-      };
-    } else {
-      return {
-        allReviews: reviews[0].reviewText,
-        allReviewCount: reviews[0].ratingCount
-      }
+  res.json({
+    gameName: data.meta.name,
+    releaseDate: 'January 1970',
+    gameDescription: data.meta.blurb,
+    developerName: data.meta.developer,
+    publisherName: data.meta.publisher,
+    gameTags: [0, 1, 2, 3, 4],
+    gameMedia: data.media.map(m => ({mediaType: 0, mediaUrl: m.url}))
+      .concat({mediaType: 2, mediaUrl: data.media[0]}),
+    gameReviews: {
+      recentReviewCount: '401',
+      recentReviews: 'Very Positive',
+      allReviewsCount: '22156',
+      allReviews: 'Overwhelmingly Positive'
     }
-  }
-
-  const responseInfo = {
-    gameName: gameInstance.gameName,
-    releaseDate: gameInstance.releaseDate,
-    gameDescription: gameInstance.description,
-    developerName: developer.developerName,
-    publisherName: publisher.publisherName,
-    gameTags: tags.map(obj => obj.tagName),
-    gameReviews: formatReviews(),
-    gameMedia: media.map(obj => {
-      return {
-        mediaType: obj.mediaType,
-        mediaUrl: obj.mediaUrl
-      }
-    })
-  };
-  res.status(200);
-  res.json(responseInfo);
+  });
 });
 
 //SDC CRUD
@@ -168,16 +127,19 @@ app.put('/api/hero/all_info/:id', async function(req, res) {
 
 
 let server;
-const start = () => {
+const start = async () => {
+  const r = await db.connect();
+  if(!r) {
+    console.error('Could not connect to database.');
+    return;
+  }
   server = app.listen(port, () => {
-    console.log('\n||||||||||||||||||||||||||||||||||||||||||||||||||||')
-    console.log(`\nMoist-Air hero section service running at port: ${port}`);
-    console.log('\n||||||||||||||||||||||||||||||||||||||||||||||||||||\n')
+    console.log('Server started.');
   })
 }
 
 const stop = () => {
-  server.close()
+  server.close();
 };
 
 module.exports.appMethods = {
