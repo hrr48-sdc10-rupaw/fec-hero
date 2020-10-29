@@ -18,11 +18,14 @@ const get = function(id) {
     .catch(_ => null);
 };
 
-const erase = function(id) {
-
+const remove = function(id) {
+  return client.query('DELETE FROM games WHERE id = $1 CASCADE', [id])
+    .then(_ => 1)
+    .catch(_ => 0);
 };
 
 module.exports = {
   connect,
   get,
+  remove,
 };
