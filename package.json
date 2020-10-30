@@ -4,12 +4,8 @@
   "description": "Hack Reactor Front End Capstone",
   "main": "index.js",
   "scripts": {
-    "test": "jest --detectOpenHandles",
-    "build": "webpack --watch",
-    "start": "node server/index.js",
-    "start-dev": "npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all && nodemon server/index.js",
-    "reset:db": "npx sequelize-cli db:seed:undo:all && npx sequelize-cli db:migrate:undo:all",
-    "setup:db": "npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all"
+    "build": "webpack",
+    "start": "node server/index.js"
   },
   "repository": {
     "type": "git",
