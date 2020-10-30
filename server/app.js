@@ -16,6 +16,22 @@ app.get('/', (req, res) => {
   res.send({serverResponse: 'OK'});
 })
 
+const flags = [
+  'Action', 'Adventure', 'RPG', 'Sandbox', 'FPS', 'Hero Shooter',
+  'Crafting', 'Horror', 'Anime', 'Idle', 'RTS', 'MMORPG', 'Stealth',
+  'Hunting', 'Horror', 'Indie', 'Soundtrack', 'Marketplace',
+  'Simulator', 'Farming', 'Politics', 'AR', 'VR', 'Story',
+  'Atmospheric', 'Space', 'Melee', 'Fantasy', 'Turn-based',
+  'Economy', 'Remaster', 'Survival', 'Puzzle'
+];
+
+const maketags = function(bits) {
+  const tags = [];
+  const push = (b, name) => (bits & b) && tags.push(name);
+  flags.forEach((fl, i) => push(1 << i, fl));
+  return tags;
+};
+
 app.get('/api/hero/all_info/:id', async (req, res) => {
   const id = parseInt(req.params.id);
   if(isNaN(id)) {
@@ -25,13 +41,14 @@ app.get('/api/hero/all_info/:id', async (req, res) => {
   if (data === null) {
     return res.sendStatus(404);
   }
+  console.log(data.meta);
   res.json({
     gameName: data.meta.name,
     releaseDate: 'January 1970',
     gameDescription: data.meta.blurb,
     developerName: data.meta.developer,
     publisherName: data.meta.publisher,
-    gameTags: ['Sandbox', 'RPG', 'Horror', 'Indie', 'FPS'],
+    gameTags: maketags(data.meta.tags),
     gameMedia: data.media.map(m => ({mediaType: 0, mediaUrl: m.url}))
       .concat({mediaType: 2, mediaUrl: data.media[0]}),
     gameReviews: {
