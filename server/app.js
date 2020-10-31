@@ -61,24 +61,31 @@ app.get('/api/hero/all_info/:id', async (req, res) => {
 });
 
 //SDC CRUD
-const validp = function(game) {
-  return game.gameName && typeof(game.gameName) === 'string'
-  && game.releaseDate && typeof(game.releaseDate) === 'string'
-  && game.description && typeof(game.description) === 'string'
-  && game.developerId !== undefined && typeof(game.developerId) === 'number'
-  && game.publisherId !== undefined && typeof(game.publisherId) === 'number';
-};
-
 app.post('/api/hero/all_info/', async function(req, res) {
-  res.status(431).send('Disabled for security');
+  const id = parseInt(req.params.id);
+  if(isNaN(id)) {
+    return res.sendStatus(400);
+  }
+  const r = db.insert(req.body);
+  res.sendStatus(r ? 500 : 200);
 });
 
 app.delete('/api/hero/all_info/:id', async function(req, res) {
-
+  const id = parseInt(req.params.id);
+  if(isNaN(id)) {
+    return res.sendStatus(400);
+  }
+  const err = db.remove(id);
+  res.sendStatus(err ? 500 : 200);
 });
 
 app.put('/api/hero/all_info/:id', async function(req, res) {
-
+  const id = parseInt(req.params.id);
+  if(isNaN(id)) {
+    return res.sendStatus(400);
+  }
+  const r = db.insert(req.body);
+  res.sendStatus(r ? 500 : 200);
 });
 
 
