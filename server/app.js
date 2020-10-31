@@ -5,15 +5,6 @@ const logger = require('morgan');
 const path = require('path');
 const db = require('./db.js');
 const port = process.env.PORT || 3001;
-const {
-  Game,
-  Tag,
-  Developer,
-  Publisher,
-  GameReview,
-  GameMedia,
-  GameTag
-} = require('../database/models');
 
 // console.log(Game.prototype);
 app = express();
@@ -25,23 +16,39 @@ app.get('/', (req, res) => {
   res.send({serverResponse: 'OK'});
 })
 
+const flags = [
+  'Action', 'Adventure', 'RPG', 'Sandbox', 'FPS', 'Hero Shooter',
+  'Crafting', 'Horror', 'Anime', 'Idle', 'RTS', 'MMORPG', 'Stealth',
+  'Hunting', 'Horror', 'Indie', 'Soundtrack', 'Marketplace',
+  'Simulator', 'Farming', 'Politics', 'AR', 'VR', 'Story',
+  'Atmospheric', 'Space', 'Melee', 'Fantasy', 'Turn-based',
+  'Economy', 'Remaster', 'Survival', 'Puzzle'
+];
+
+const maketags = function(bits) {
+  const tags = [];
+  const push = (b, name) => (bits & b) && tags.push(name);
+  flags.forEach((fl, i) => push(1 << i, fl));
+  return tags;
+};
+
 app.get('/api/hero/all_info/:id', async (req, res) => {
   const id = parseInt(req.params.id);
   if(isNaN(id)) {
-    console.log(id);
     return res.sendStatus(400);
   }
   const data = await db.get(req.params.id);
   if (data === null) {
     return res.sendStatus(404);
   }
+  console.log(data.meta);
   res.json({
     gameName: data.meta.name,
     releaseDate: 'January 1970',
     gameDescription: data.meta.blurb,
     developerName: data.meta.developer,
     publisherName: data.meta.publisher,
-    gameTags: [0, 1, 2, 3, 4],
+    gameTags: maketags(data.meta.tags),
     gameMedia: data.media.map(m => ({mediaType: 0, mediaUrl: m.url}))
       .concat({mediaType: 2, mediaUrl: data.media[0]}),
     gameReviews: {
@@ -54,75 +61,31 @@ app.get('/api/hero/all_info/:id', async (req, res) => {
 });
 
 //SDC CRUD
-const validp = function(game) {
-  return game.gameName && typeof(game.gameName) === 'string'
-  && game.releaseDate && typeof(game.releaseDate) === 'string'
-  && game.description && typeof(game.description) === 'string'
-  && game.developerId !== undefined && typeof(game.developerId) === 'number'
-  && game.publisherId !== undefined && typeof(game.publisherId) === 'number';
-};
-
 app.post('/api/hero/all_info/', async function(req, res) {
-  if (!validp(req.body.info)) {
+  const id = parseInt(req.params.id);
+  if(isNaN(id)) {
     return res.sendStatus(400);
   }
-  let game = await Game.create(req.body.info);
-  if (!game) {
-    console.log("Create failed");
-    return res.sendStatus(500);
-  }
-  let x = game.setTags([]);
-  let y = game.createGameReview({
-    ratingCount: '0:0',
-    reviewText: 'Mixed:Mixed'
-  });
-  let z = GameMedia.create({
-    gameId: game.id,
-    mediaType: 2,
-    mediaUrl: req.body.media.bg
-  })
-  let w = GameMedia.bulkCreate(req.body.media.slides.map(g => {
-    g.gameId = game.id;
-    return g;
-  }));
-  Promise.all([x, y, z, w])
-    .then(res.send(`${game.id}`))
-    .catch(why => {
-      console.log(why);
-      res.sendStatus(500);
-    });
+  const r = db.insert(req.body);
+  res.sendStatus(r ? 500 : 200);
 });
 
 app.delete('/api/hero/all_info/:id', async function(req, res) {
-  let x = Game.destroy({where: {id: req.params.id}});
-  let y = GameReview.destroy({where: {gameId: req.params.id}});
-  let z = GameMedia.destroy({where: {gameId: req.params.id}});
-  Promise.all([x, y, z]).then(()=> res.sendStatus(200));
+  const id = parseInt(req.params.id);
+  if(isNaN(id)) {
+    return res.sendStatus(400);
+  }
+  const err = db.remove(id);
+  res.sendStatus(err ? 500 : 200);
 });
 
 app.put('/api/hero/all_info/:id', async function(req, res) {
-  let g = await Game.findOne({where: {id: req.params.id}});
-  if(!g) {
-    return res.sendStatus(404);
+  const id = parseInt(req.params.id);
+  if(isNaN(id)) {
+    return res.sendStatus(400);
   }
-  let u1 = Game.update(req.body.info, {where: {id: req.params.id}});
-  let u2;
-  if (req.body.media && req.body.media.slides) {
-    const imgs = req.body.media.slides;
-    if (req.body.media.slides) {
-      imgs.push({mediaUrl: req.body.media.bg, mediaType: 2});
-    }
-    u2 = GameMedia.update(imgs, {where: {gameId: req.params.id}});
-  } else {
-    u2 = Promise.resolve();
-  }
-
-  Promise.all([u1, u2])
-    .then(()=> res.sendStatus(200))
-    .catch(why => {
-      console.log(why);
-      res.sendStatus(500);
-    });
+  const r = db.insert(req.body);
+  res.sendStatus(r ? 500 : 200);
 });
 
 
