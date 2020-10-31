@@ -66,7 +66,7 @@ app.post('/api/hero/all_info/', async function(req, res) {
   if(isNaN(id)) {
     return res.sendStatus(400);
   }
-  const r = db.insert(req.body);
+  const r = await db.insert(req.body);
   res.sendStatus(r ? 500 : 200);
 });
 
@@ -75,7 +75,7 @@ app.delete('/api/hero/all_info/:id', async function(req, res) {
   if(isNaN(id)) {
     return res.sendStatus(400);
   }
-  const err = db.remove(id);
+  const err = await db.remove(id);
   res.sendStatus(err ? 500 : 200);
 });
 
@@ -84,7 +84,7 @@ app.put('/api/hero/all_info/:id', async function(req, res) {
   if(isNaN(id)) {
     return res.sendStatus(400);
   }
-  const r = db.insert(req.body);
+  const r = await db.insert(req.body);
   res.sendStatus(r ? 500 : 200);
 });
 
